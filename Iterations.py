@@ -1,6 +1,6 @@
 import operator
 
-PRECISION = 0.01
+PRECISION = 0.0001
 
 
 def getNorm(X):
@@ -14,6 +14,11 @@ def printX(X):
     lenX = len(X)
     for i in range(lenX):
         print("X" + str(i + 1) + " = " + str(X[i]))
+
+
+def printMatrix(A):
+    for row in A:
+        print(row)
 
 fname = "matrix.txt"
 
@@ -44,16 +49,24 @@ for i in range(matrixSize):
     del A[i][i]
 
 
+# print("A:")
+# printMatrix(A)
+# print("B:")
+# printMatrix(B)
+
 # initial approximation
 previousX = [x for x in B]
 currentX = [x for x in previousX]
 started = False
 
 # iterations
+times = 0
 while not started or getNorm(list(map(operator.sub, currentX, previousX))) >= PRECISION:
     started = True
     previousX = [x for x in currentX]
     xLen = len(currentX)
+    print(str(times) + ": ")
+    printX(currentX)
     for i in range(xLen):
         copyX = [x for x in previousX]
         del copyX[i]
@@ -61,20 +74,25 @@ while not started or getNorm(list(map(operator.sub, currentX, previousX))) >= PR
         for j in range(len(copyX)):
             currentX[i] += copyX[j] * A[i][j]
         currentX[i] += B[i]
+    times += 1
+    print("Accuracy: " + str(getNorm(list(map(operator.sub, currentX, previousX)))))
 
 print("ITERATIONS:")
 printX(currentX)
-print("\n")
+print("\n==============================================")
 
 # Seidel
 previousX = [x for x in B]
 currentX = [x for x in previousX]
 started = False
 
+times = 0
 while not started or getNorm(list(map(operator.sub, currentX, previousX))) >= PRECISION:
     started = True
     previousX = [x for x in currentX]
     xLen = len(currentX)
+    print(str(times) + ":")
+    printX(currentX)
     for i in range(xLen):
         copyX = [x for x in currentX] # Here is the difference
         del copyX[i]
@@ -82,6 +100,8 @@ while not started or getNorm(list(map(operator.sub, currentX, previousX))) >= PR
         for j in range(len(copyX)):
             currentX[i] += copyX[j] * A[i][j]
         currentX[i] += B[i]
+    times += 1
+    print("Accuracy: " + str(getNorm(list(map(operator.sub, currentX, previousX)))))
 
 print("SEIDEL:")
 printX(currentX)
