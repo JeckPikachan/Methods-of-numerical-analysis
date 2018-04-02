@@ -1,6 +1,7 @@
 import numpy
 import math
 
+
 def printX(X):
     lenX = len(X)
     for i in range(lenX):
@@ -59,5 +60,20 @@ printX(X)
 detA = 1
 for i in range(matrixSize):
     detA *= U[i][i] ** 2
+
+print("\nDET(A): " + str(detA))
+
+AInv = [[0]*matrixSize for x in range(matrixSize)]
+
+for i in range(matrixSize):
+    e = [0] * matrixSize
+    e[i] = 1
+    Y = numpy.linalg.solve(UT, e)
+    AInv[i] = numpy.linalg.solve(U, Y)
+
+AInv = numpy.transpose(AInv)
+print("\nInverted Matrix:")
+printMatrix(AInv)
+
 
 print("det(A): " + str(detA))
